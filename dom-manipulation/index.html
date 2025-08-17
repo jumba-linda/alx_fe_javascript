@@ -5,62 +5,49 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dynamic Quote Generator</title>
   <style>
-    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans"; }
-    body { margin: 0; padding: 24px; background: #f7f7fb; color: #111; }
-    .app { max-width: 980px; margin: 0 auto; display: grid; gap: 16px; }
-    h1 { margin: 0 0 8px; }
-    .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-    select, input, button { padding: 10px 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; }
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+    body { margin: 0; padding: 24px; background: #f6f7fb; color: #111; }
+    .app { max-width: 900px; margin: 0 auto; display: grid; gap: 16px; }
+    h1 { margin: 0 0 6px; }
+    .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    input, button { padding: 10px 12px; border: 1px solid #ddd; border-radius: 10px; }
     button { cursor: pointer; }
-    button.primary { background: #111; color: #fff; border: none; }
-    button.ghost { background: #fff; }
-    #quoteDisplay { background: #fff; padding: 18px; border-radius: 14px; box-shadow: 0 6px 20px rgba(0,0,0,.06); min-height: 80px; }
+    .primary { background: #111; color: #fff; border: none; }
+    #quoteDisplay { background: #fff; padding: 18px; border-radius: 12px; min-height: 80px; box-shadow: 0 6px 18px rgba(0,0,0,.06); }
     blockquote { margin: 0; font-size: 20px; line-height: 1.5; }
-    .meta { margin-top: 8px; font-size: 13px; color: #555; }
+    .meta { margin-top: 6px; font-size: 13px; color: #555; }
     .small { font-size: 12px; color: #666; }
     .status { font-size: 13px; color: #0a5; }
     .warn { color: #b00; }
-    .panel { background:#fff; padding:12px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,.06); }
-    ul { margin: 6px 0 0; padding-left: 18px; }
   </style>
 </head>
 <body>
   <div class="app">
     <h1>Dynamic Quote Generator</h1>
 
-    <!-- Controls -->
-    <div class="row">
-      <label class="small" for="categoryFilter">Filter:</label>
-      <select id="categoryFilter" onchange="filterQuotes()">
-        <option value="all">All Categories</option>
-        <!-- categories populated by JS -->
-      </select>
-
-      <button id="newQuote" class="primary">Show New Quote</button>
-
-      <button id="exportJson" class="ghost">Export JSON</button>
-      <label class="small" for="importFile">Import JSON:</label>
-      <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
-    </div>
-
-    <!-- Quote view -->
     <div id="quoteDisplay">
       <blockquote id="quoteText">Your quote will appear here…</blockquote>
       <div class="meta">Category: <strong id="quoteCategory">—</strong></div>
     </div>
 
-    <!-- Optional: see current matches for the chosen filter -->
-    <div class="panel">
-      <div class="small">Matching quotes for this view:</div>
-      <ul id="matchesList"></ul>
+    <div class="row">
+      <button id="newQuote" class="primary">Show New Quote</button>
     </div>
 
-    <!-- Add Quote form gets injected here by JS (per requirements) -->
-    <div id="addQuoteArea"></div>
+    <div class="row">
+      <input id="newQuoteText" type="text" placeholder="Enter a new quote" style="flex:1 1 300px"/>
+      <input id="newQuoteCategory" type="text" placeholder="Enter quote category"/>
+      <button class="primary" onclick="addQuote()">Add Quote</button>
+    </div>
 
-    <!-- Status / notifications -->
+    <div class="row">
+      <button id="exportJson">Export JSON</button>
+      <label class="small" for="importFile">Import JSON:</label>
+      <input type="file" id="importFile" accept=".json" onchange="importFromJsonFile(event)" />
+    </div>
+
     <div id="statusBox" class="status"></div>
-    <div class="small">Notes: Quotes & last filter are saved via <code>localStorage</code>. Last viewed quote (per tab) uses <code>sessionStorage</code>. Server sync uses JSONPlaceholder and “server wins” conflict resolution.</div>
+    <div class="small">Notes: Quotes are saved in your browser via <code>localStorage</code>. Last viewed quote is remembered per tab using <code>sessionStorage</code>.</div>
   </div>
 
   <script src="script.js"></script>
